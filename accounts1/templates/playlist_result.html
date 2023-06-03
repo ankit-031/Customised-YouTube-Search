@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Playlist page</title>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333;
+
+            background-color: #f7f7f7;
+        }
+        h1 {
+            margin: 20px 0;
+            text-align: center;
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+        h2 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .columns {
+            flex: 1;
+            margin-right: 10px;
+        }
+        .columns:last-child {
+            margin-right: 0;
+        }
+        li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .ytplayer {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        .dropdown {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .dropdown select {
+            margin-right: 10px;
+            font-size: 1em;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            box-shadow: none;
+            transition: border-color 0.3s ease-in-out;
+        }
+        .dropdown select:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            font-size: 1em;
+            font-weight: bold;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            box-shadow: none;
+            transition: background-color 0.3s ease-in-out;
+        }
+        input[type="submit"]:hover {
+            background-color: #0062cc;
+        }
+        .playlist-container {
+            display: flex;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        .playlist-container:last-child {
+            margin-bottom: 0;
+        }
+        .playlist-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-left: 20px;
+            font-size: 0.8em;
+            flex: 1;
+        }
+        .playlist-info h3 {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .playlist-info p {
+            margin: 5px 0;
+        }
+        .playlist-info .duration {
+            display: flex;
+            align-items: center;
+        }
+        .playlist-info .duration span {
+            margin-right: 5px;
+        }
+        .pltitle{
+            font-size: 300px;
+        }
+    </style>
+</head>
+<body>
+<h1>Playlist</h1>
+<form action="/update_result1/" method="post">
+    {%  csrf_token %}
+    <div class="container">
+
+        <!--    <button id="create-columns">Apply Filters</button>-->
+        <div class="columns">
+            <div class="column dropdown">
+                <h3>Sorting</h3>
+                <select class="sort-by1 drop" id="two" name="two" onchange="showDropdown()">
+                    <option >Select Option</option>
+                    <option value="ViewCount">ViewCount</option>
+                    <option value="Views to Video Ratio">Views to Video Ratio</option>
+                    <option value="Standard Deviation">Standard Deviation</option>
+                    <option value="none1">None</option>
+                </select>
+                <h3>Duration</h3>
+                <select class="sort-by2 drop" id="three" name="three">
+                    <option >Select Option</option>
+                    <option value="1to5hr">upto 5hour</option>
+                    <option value="ten">under 10 hours</option>
+                    <option value="twenty">under 20 hours</option>
+                    <option value="20more">above 20 hours</option>
+                    <option value="none2">None</option>
+                </select>
+            </div>
+            <div class="column">
+            </div>
+        </div>
+        <br>
+        <br>
+        <div style="clear: both">
+            <input type="submit" value="Apply Filters" >
+        </div>
+    </div>
+</form>
+{% if keyword %}
+    <h2>Your keyword is: {{ keyword }}</h2>
+{% endif %}
+{% if playlists %}
+    <div class="container">
+        {% for playlist_id, playlist_data in playlists.items %}
+            <div class="playlist-container">
+                <div class="ytplayer" data-id={{playlist_id}}></div>
+                <div class="playlist-info">
+                    <h3 class="pltitle">{{ playlist_data.title }}</h3>
+                    {% if playlist_data.view_count %}
+                        <p>Views: {{ playlist_data.view_count }}</p>
+                    {% endif %}
+                    {% if playlist_data.std_deviation %}
+                        <p>Standard_deviation: {{ playlist_data.std_deviation }}</p>
+                    {% endif %}
+                    {% if playlist_data.hours %}
+                        <p>Hours: {{ playlist_data.hours }}</p>
+                    {% endif %}
+                    {% if playlist_data.minutes %}
+                        Minutes: {{ playlist_data.minutes }}
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+<script>
+    // This code loads the IFrame Player API code asynchronously.
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    var players = [];
+
+    // This function creates an <iframe> (and YouTube player)
+    // for each playlist.
+    function onYouTubeIframeAPIReady() {
+        var ytplayers = document.getElementsByClassName('ytplayer');
+        for (var i = 0; i < ytplayers.length; i++) {
+            var player = new YT.Player(ytplayers[i], {
+                height: '300',
+                width: '440',
+                playerVars: {
+                    listType: 'playlist',
+                    list: ytplayers[i].getAttribute('data-id')
+                }
+            });
+            players.push(player);
+        }
+    }
+    onYouTubeIframeAPIReady();
+</script>
+</body>
+</html>

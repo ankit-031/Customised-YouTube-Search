@@ -1,0 +1,52 @@
+{% extends "base.html"%}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+    <div class="container d-flex justify-content-between gdw">
+        <div>
+            <a class="nav-item">CustomYoutubeSearch</a>
+
+        </div>
+        <div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav ml-auto" >
+                    <li class="nav-item ">
+                        <a class="nav-link" href="{% url 'home' %}">Home <span class=""></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'Custom-search' %}">CustomSearch</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'about-us' %}">About Us</a>
+                    </li>
+                    <!--                    <li class="nav-item dropdown">-->
+                    <!--                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" >-->
+                    <!--                            Analysis-->
+                    <!--                        </a>-->
+                    <!--&lt;!&ndash;                        <div class="dropdown-menu">&ndash;&gt;-->
+                    <!--&lt;!&ndash;                            <a class="dropdown-item" href="{% url 'Channel' %}">Channel</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;                            <a class="dropdown-item" href="{% url 'Video' %}">Video</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;                            <a class="dropdown-item" href="{% url 'cmpc' %}">Compare Channel</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;                            <a class="dropdown-item" href="{% url 'cmpv' %}">Compare Videos</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;                        </div>&ndash;&gt;-->
+                    <!--                    </li>-->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/signout">Logout</a>
+                    </li>
+                </ul>
+            </div></div>
+    </div>
+</nav>
+
+
+<div class="global-container">
+    <h2>About Us</h2>
+</div>
+
+
+
+
+{% endblock %}

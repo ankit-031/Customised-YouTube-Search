@@ -1,0 +1,399 @@
+<html>
+  <head>
+    <style>
+      {% comment %} .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+      }
+       {% endcomment %}
+       .container {
+        display: flex;
+        {% comment %} justify-content: space-between; {% endcomment %}
+      }
+      
+      {% comment %} .container .column {
+        display: flex;
+        flex-direction: column;
+      }
+       {% endcomment %}
+      {% comment %} .container .column select {
+        margin-top: 5px;
+      } {% endcomment %}
+      
+      #filter-bt {
+        background-color: #008CBA;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      
+      .video-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .video {
+        margin: 20px;
+        width: 300px;
+        background-color: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      }
+      
+      .video-iframe {
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-bottom: 56.25%;
+      }
+      
+      .video-iframe iframe {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+      }
+      
+      .title {
+        padding: 10px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+      
+      .views {
+        padding: 10px;
+        font-size: 16px;
+      }
+      
+      .analyse-btn {
+        background-color: #008CBA;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        margin: 10px;
+      }
+      
+      .result {
+        padding: 10px;
+        font-size: 16px;
+        text-align: center;
+      }
+      </style>
+  </head>
+    <body>
+
+<form action="/update_result/" method="post">
+  {%  csrf_token %}
+<div class="container">
+        <h3>Duration</h3>
+        <select class="sort-by2 drop" id="three" name="three">
+          <option >Select Option</option>
+          <option value="ten">Under 10-min</option>
+          <option value="one hr">Under 1 hour</option>
+          <option value="1to3hr">1-3 hour</option>
+          <option value="above3">Above 3 hours</option>
+          <option value="none2">None</option>
+        </select>
+        <h3 id="fonts1">Sort By</h3>
+        <select class="sort-by1 drop" id="two" name="two" onchange="showDropdown()">
+          <option >Select Option</option>
+          <option value="rating">Ratings</option>
+          <option value="upload">Upload Wise</option>
+          <option value="none1">None</option>
+        </select>
+
+
+
+      <!--//for uploadwise-->
+      <div id="options-container" style="display:none;">
+        <label for="select-option">Select an option:</label>
+        <select id="select-option" class="drop" name="select-option">
+          <option value="per-day">Per Day</option>
+          <option value="per-month">Per Month</option>
+          <option value="per-year">Per Year</option>
+          <option value="none4">None</option>
+        </select>
+        <br>
+        <div id="color">
+          <label for="slider">Select a value between 0 and 1: (for Views)</label>
+          <input type="range" id="slider" name="slider" min="0" max="1" step="0.01">
+          <div id="slider-value"></div>
+          <label for="slider1">Select a value between 0 and 1: (for Comments)</label>
+          <input type="range" id="slider1" name="slider1" min="0" max="1" step="0.01">
+          <div id="slider-value1"></div>
+          <label for="slider2">Select a value between 0 and 1: (for Likes)</label>
+          <input type="range" id="slider2" name="slider2" min="0" max="1" step="0.01">
+          <div id="slider-value2"></div>
+        </div>
+
+      </div>
+
+      <!-- for all files-->
+      <div id="options-container1" style="display:none; color: black;" class="drop">
+        <!--  <label for="select-option">Select an option:</label>-->
+        <br>
+        <div id="color1">
+          <label for="sliderr">Select a value between 0 and 1: (for Views)</label>
+          <input type="range" id="sliderr" name="sliderr" min="0" max="1" step="0.01">
+          <div id="slider-valuee"></div>
+          <label for="sliderr1">Select a value between 0 and 1: (for Comments)</label>
+          <input type="range" id="sliderr1" name="sliderr1" min="0" max="1" step="0.01">
+          <div id="slider-valuee1"></div>
+          <label for="sliderr2">Select a value between 0 and 1: (for Likes)</label>
+          <input type="range" id="sliderr2" name="sliderr2" min="0" max="1" step="0.01">
+          <div id="slider-valuee2"></div>
+
+        </div>
+
+      </div>
+
+    </div>
+    <br><br>
+
+
+</div>
+  <div class="column">
+    <input type="submit" id="filter-bt" value="apply filters" onclick="apply();  return false;" >
+  </div>
+</div>
+</form>
+
+<div class="container1">
+  <div class="search-container">
+
+  </div>
+
+  <h2>Search Results for "{{keyword}}"</h2>
+  <div class="video-container">
+    {% for video in videos %}
+    <div class="video">
+      <div class="video-iframe">
+        <iframe src="{{video.link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="title">{{ video.title }}</div>
+      <div class="views">{{ video.views }} views</div>
+      <div class="views">{{ video.comments }} comments </div>
+      <div class="views">{{ video.likes }} likes </div>
+      <button class="analyse-btn" type="button" data-video-url="{{ video.url }}" onclick="analyseVideo(this)">Comment Analyse</button>
+      <div class="result"></div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+
+<br><br>
+<br>
+
+
+<!--filters-->
+
+
+<script>
+
+         function analyseVideo(button)
+         {
+            var videoUrl = button.getAttribute('data-video-url');
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var result = JSON.parse(xhr.responseText);
+                    var resultDiv = button.nextElementSibling;
+                    resultDiv.innerHTML = '<span class="positive">Positive: ' + result.positive + '%</span><span class="negative">Negative: ' + result.negative + '%</span><span class="neutral">Neutral: ' + result.neutral + '%</span>';
+<!--                    resultDiv.innerHTML = 'Positive: ' + result.positive+'%' + ', Negative: ' + result.negative + '%' + ', Neutral: ' + result.neutral+'%';-->
+                    resultDiv.style.color = 'black';
+                }
+            }
+            xhr.open('GET', '/analyse/?video_url=' + videoUrl);
+            xhr.send();
+         }
+
+        const timePeriodBtns = document.querySelectorAll(".time-period");
+        const sortBySelect = document.querySelector(".sort-by1");
+
+<!--        function createCol(){-->
+<!--            const createColumnsBtn = document.getElementById("create-columns");-->
+<!--            const columns = document.querySelector(".columns");-->
+
+
+<!--               if (columns.style.display === "flex") {-->
+<!--                columns.style.display = "none";-->
+<!--              }-->
+<!--              else {-->
+<!--                columns.style.display = "flex";-->
+<!--              }-->
+
+<!--        }-->
+
+
+
+  function showDropdown()
+  {
+    const selectedOption = sortBySelect.value;
+    if (selectedOption === "upload")
+    {
+     document.getElementById("options-container1").style.display = "none";
+      document.getElementById("options-container").style.display = "block";
+    }
+    else if(selectedOption === "rating")
+    {
+    document.getElementById("options-container").style.display = "none";
+      document.getElementById("options-container1").style.display = "block";
+    }
+    else
+    {
+      document.getElementById("options-container").style.display = "none";
+       document.getElementById("options-container1").style.display = "none";
+    }
+  }
+
+  timePeriodBtns.forEach((btn) => {
+    btn.addEventListener("click", function() {
+      timePeriodBtns.forEach(btn => btn.classList.remove("active"));
+      this.classList.add("active");
+    });
+  });
+
+
+<!--  javascript for the dynamically created after upload wise:-->
+
+  const optionsContainer = document.getElementById("options-container");
+  const optionsContainer1 = document.getElementById("options-container1");
+  const selectOption = document.getElementById("select-option");
+  //for upload wise:
+  const slider = document.getElementById("slider");
+  const sliderValue = document.getElementById("slider-value");
+  const sliderValue1 = document.getElementById("slider-value1");
+  const sliderValue2 = document.getElementById("slider-value2");
+
+  //for all files(ratings)
+  const sliderr = document.getElementById("sliderr");
+  const sliderrValue = document.getElementById("slider-valuee");
+  const sliderrValue1 = document.getElementById("slider-valuee1");
+  const sliderrValue2 = document.getElementById("slider-valuee2");
+
+
+  slider.addEventListener("input", function() {
+    sliderValue.innerText = slider.value;
+
+  });
+  slider1.addEventListener("input", function() {
+    sliderValue1.innerText = slider1.value;
+  });
+  slider2.addEventListener("input", function() {
+    sliderValue2.innerText = slider2.value;
+  });
+
+  // for all files
+  sliderr.addEventListener("input", function() {
+    sliderrValue.innerText = sliderr.value;
+  });
+  sliderr1.addEventListener("input", function() {
+    sliderrValue1.innerText = sliderr1.value;
+  });
+  sliderr2.addEventListener("input", function() {
+    sliderrValue2.innerText = sliderr2.value;
+  });
+
+
+<!-- code for ajax trigger of dropdown -->
+
+<!--function apply() {-->
+<!--  // Get the selected values-->
+<!--  const option1 = document.getElementById("one").value;-->
+<!--  const option2 = document.getElementById("two").value;-->
+<!--  const option3 = document.getElementById("three").value;-->
+<!--  const option4 = document.getElementById("select-option").value;-->
+<!--  const sliderValue = document.getElementById("slider").value;-->
+<!--  const sliderValue1 = document.getElementById("slider1").value;-->
+<!--  const sliderValue2 = document.getElementById("slider2").value;-->
+
+<!--  const sliderrValue = document.getElementById("sliderr").value;-->
+<!--  const sliderrValue1 = document.getElementById("sliderr1").value;-->
+<!--  const sliderrValue2 = document.getElementById("sliderr2").value;-->
+
+
+<!--  // Create a new XHR object-->
+
+<!--    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;-->
+<!--    const xhr = new XMLHttpRequest();-->
+
+<!--  // Set the request URL and method-->
+<!--  const url = "/update_result/";-->
+<!--  const method = "POST";-->
+<!--  xhr.open(method, url);-->
+
+<!--  // Set the request headers-->
+<!--  xhr.setRequestHeader("Content-Type", "application/json");-->
+<!--  xhr.setRequestHeader('X-CSRFToken', csrfToken); // Add the CSRF token to the headers-->
+
+<!--  // Set the request data as a JSON object-->
+<!--  const data = {-->
+<!--    option1: option1,-->
+<!--    option2: option2,-->
+<!--    option3: option3,-->
+<!--    option4: option4,-->
+<!--    sliderValue: sliderValue,-->
+<!--    sliderValue1: sliderValue1,-->
+<!--    sliderValue2: sliderValue2,-->
+<!--    sliderrValue: sliderrValue,-->
+<!--    sliderrValue1: sliderrValue1,-->
+<!--    sliderrValue2: sliderrValue2,-->
+<!--  };-->
+
+<!--  // Send the request with the data as JSON-->
+
+
+<!--  // Handle the response-->
+<!--  xhr.onload = function () {-->
+<!--    if (xhr.status === 200)-->
+<!--    {-->
+<!--      const resultContainer = document.getElementById('result-container');-->
+<!--&lt;!&ndash;      const responseDiv = document.createElement('div');&ndash;&gt;-->
+<!--      resultContainer.innerHTML = xhr.responseText;-->
+<!--      resultContainer.style.color = 'white';-->
+<!--&lt;!&ndash;      resultContainer.appendChild(responseDiv);&ndash;&gt;-->
+<!--    }-->
+<!--  };-->
+<!--   xhr.send(JSON.stringify(data));-->
+<!--}-->
+
+
+
+</script>
+
+
+
+
+</div>
+    <!--        <input type="image" src="" name="submit" width="100" height="48" alt="submit" class="search-img"/>-->
+
+
+</div>
+
+<!-- Optional JavaScript; choose one of the two! -->
+
+<!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+
+<!-- Option 2: Separate Popper and Bootstrap JS -->
+<!--
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+-->
+</body>
+</html>
+

@@ -1,0 +1,565 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta name="csrf-token" content="{{ csrf_token }}">
+      <script>
+
+    </script>
+
+    <!-- Required meta tags -->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="author" content="colorlib.com">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,800" rel="stylesheet" />
+<!--    <link href="css/main.css" rel="stylesheet" />-->
+
+    <!-- Bootstrap CSS -->
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+      <!-- JavaScript links for Bootstrap and jQuery -->
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+
+    <title>Django!</title>
+
+     <style>
+            .result {
+        display: block;
+        margin-top: 10px;
+        color: black;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .result .positive {
+        display: block;
+        margin-top: 5px;
+        font-weight: normal;
+        font-size: 14px;
+        color: #008000;
+      }
+
+      .result .negative {
+        display: block;
+        margin-top: 5px;
+        font-weight: normal;
+        font-size: 14px;
+        color: #FF0000;
+      }
+
+      .result .neutral {
+        display: block;
+        margin-top: 5px;
+        font-weight: normal;
+        font-size: 14px;
+        color: #333;
+      }
+
+
+
+
+
+     #exampleInputEmail1{
+        border: 1px solid black;
+     }
+     #exampleInputPassword1{ border: 1px solid black;}
+
+      #email{
+        border: 1px solid black;
+      }
+      .black{
+        color:black;
+     }
+
+
+    .form-control {
+      /* existing styles for form-control class */
+      border-color: #fff;
+      box-shadow: 0 0 0 2px #fff;
+    }
+
+    .search-container {
+      display: flex;
+      align-items: center; /* vertically center the button */
+    }
+
+    .search-container input[type="text"] {
+      flex-grow: 1; /* expand the input to fill the remaining space */
+    }
+
+    #b_s {
+      margin-left: 10px; /* add some spacing between the input and button */
+      margin-top: 10px;
+    }
+
+
+    #filter-bt {
+
+      display: block;
+      margin: 0 auto;
+      text-align: center;
+       font-size: 20px; /* Change the value as needed */
+      padding: 10px 10px; /* Add some padding to increase the size */
+
+    }
+
+
+
+    #upload-all, #upload-wise {
+        display: block;
+        margin: auto;
+        text-align: center;
+        color: white;
+        font-size: medium;
+   }
+   label{color: white;}
+
+    #options-container, #options-container1 {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      #options-container, #options-container1 {
+        display: block;
+      }
+    }
+
+  #color{color:white;}
+
+
+
+    .columns {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .column {
+      flex: 6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-right: 10px;
+
+    }
+
+    h3 {
+      margin-bottom: 10px;
+    }
+    h2{
+    color:white;
+    }
+
+    .analyse-btn
+    {
+      margin-bottom: 10px;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 3px;
+      background-color: #e6e6e6;
+      color: #333;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .analyse-btn:hover
+    {
+      background-color: #f9f9f9;
+    }
+
+    .active {
+      background-color: #1a73e8;
+      color: #fff;
+    }
+
+    /* New styles for the dropdown list */
+<!--    -->
+
+    /* Styles for the sliders */
+    .slider {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .submit-container {
+      clear: both;
+    }
+
+
+h3{
+color:white;
+}
+
+
+
+
+     * {
+        box-sizing: border-box;
+    }
+
+        html,body {
+            height: 100%;
+        }
+        .gdw{
+            padding-right:10px;
+        }
+
+         body {
+             background-image: url({% static 'img/wallpaperpro.png' %});
+             background-repeat: repeat-y;
+             background-position: center;
+             background-size: cover;
+             style="width:100%";
+         }
+
+        .navbar-custom{
+            background-color: #EB3B3B;
+        }
+        .global-container{
+            height:100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #signout{
+            color: #ff0000;
+            background-color:#D9D9D9;
+            border-radius:11px;
+            cursor:pointer;
+            font-family:Arial;
+            font-size:16px;
+            font-weight:bold;
+            padding:8px 18px;
+            text-decoration:none;
+            text-shadow:0px 1px 0px;
+            color: black;
+            position: relative;
+            left: 90px;
+        }
+        .colorr{
+          color: #090909;
+        }
+        #signout:hover {
+          color: white;
+        }
+        form{
+            padding-top: 10px;
+            font-size: 14px;
+            margin-top: 30px;
+        }
+
+        .card-title{ font-weight:300; }
+
+        .btn{
+            font-size: 14px;
+            margin-top:20px;
+        }
+
+        .login-form{
+            width:330px;
+            margin:20px;
+        }
+
+        .sign-up{
+            text-align:center;
+            padding:20px 0 0;
+        }
+
+        .alert{
+            margin-bottom:-30px;
+            font-size: 13px;
+            margin-top:20px;
+        }
+
+        .right{
+            display: block;
+            color: #666;
+            text-align: center;
+            text-decoration: none;
+            padding: 16px 40px;
+
+        }
+
+        li a:hover:not(.active) {
+          background-color: #ddd;
+        }
+
+        li a.active {
+          color: white;
+          background-color: #04AA6D;}
+        *{
+          margin: 0;
+          padding: 0;
+        }
+        #third{
+
+          color: white;
+          height: 650px;
+          padding: 100px 0 0 0;
+        }
+
+        #btn-color{
+          background-color: #090909;
+          color: white;
+        }
+
+        #lo{
+            color: black;
+        }
+        .navbar-nav{
+            padding-left:90px;
+        }
+
+
+    .box{
+
+      width: 680px;
+      height: 62px;
+      display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+      border-radius: 20px;
+
+
+    }
+    .element{
+      width: 100%;
+      height: 100%;
+      vertical-align: middle;
+
+    }
+
+
+    .main {
+          text-align: center;
+          float: left;
+          width: 60%;
+          padding: 0 20px;
+          color: white;
+          margin-left: 350px;
+          margin-top: 50px;
+    }
+
+      #keyword{
+      color:black;
+      }
+
+		#input_s{
+			border:none;
+			font-size: 20px;
+			outline: none;
+			color:#17202A;
+		}
+		#b_s{
+			font-size: 20px;
+<!--			s-->
+			color:#090909;
+<!--			background: transparent;-->
+<!--			padding: 20px 20px 70px 20px;-->
+		}
+
+<!--		#b_s{-->
+<!--			-->
+<!--			border:none;-->
+<!--			outline: none;-->
+<!--		}-->
+
+
+<!--      #b_s {-->
+<!--        font-size: 20px;-->
+<!--        margin: 0 auto;-->
+<!--        max-width: 600px;-->
+<!--        color: #090909;-->
+<!--        padding: 20px;-->
+<!--      }-->
+
+<!--      @media only screen and (min-width: 768px) {-->
+<!--        #b_s {-->
+<!--          padding: 20px 20px 70px 20px;-->
+<!--        }-->
+<!--      }-->
+
+
+
+		#filter-container {
+          padding: 10px;
+
+
+        }
+
+        .filter-group {
+          display: inline-block;
+          margin-right: 10px;
+          vertical-align: middle;
+          color:white;
+        }
+
+        .filter-group label {
+          margin-right: 5px;
+        }
+
+        select {
+          padding: 5px;
+          border: 1px solid #ccc;
+
+        }
+
+
+        #radios{
+            color: white;
+        }
+
+
+
+
+
+
+
+
+
+    .intro {
+      height: 100%;
+      margin: 200px;
+    }
+
+<!--    .form-control {-->
+<!--      border-color: transparent;-->
+<!--    }-->
+
+    .input-group>.form-control:focus {
+      border-color: transparent;
+      box-shadow: inset 0 0 0 1px transparent;
+    }
+
+    .btn-link:hover {
+      color: #f0b6d5;
+      background-color: rgba(255, 255, 255, .35);
+    }
+
+    .btn-link:active,
+    .btn-link.active {
+      color: #f0b6d5;
+      background-color: rgba(255, 255, 255, .35);
+    }
+
+    .btn-link:focus,
+    .btn-link.focus {
+      color: #f0b6d5;
+      background-color: rgba(255, 255, 255, .35);
+    }
+
+    .btn-link:active:focus,
+    .btn-link.active:focus {
+      color: #f0b6d5;
+      background-color: rgba(255, 255, 255, .35);
+    }
+
+    .form-control::placeholder {
+      color: #fff;
+    }
+
+    .purple-gradient {
+      color: #fff;
+      background: linear-gradient(to right, #F0B6D5, #A38495);
+    }
+    .btn.purple-gradient:hover {
+      color: #fff;
+    }
+
+    .text-pink {
+      color: #F0B6D5
+    }
+
+
+
+    #dd-col{
+      color:white;
+    }
+
+
+<!--    shows video-->
+
+    body {
+            background-color: #f2f2f2;
+        }
+        .container1 {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .video-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .video {
+            width: 300px;
+            margin-right: 20px;
+            margin-bottom: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .video-iframe {
+            width: 100%;
+            height: 200px;
+            border-radius: 5px 5px 0 0;
+        }
+        .title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px 15px 5px;
+        }
+        #color{
+          color:white;
+        }
+        .views {
+            font-size: 14px;
+            color: #777;
+            margin: 0 15px 10px;
+        }
+<!--        button {-->
+<!--            display: block;-->
+<!--            width: 100%;-->
+<!--            padding: 10px;-->
+<!--            background-color: #007bff;-->
+<!--            color: #fff;-->
+<!--            border: none;-->
+<!--            border-radius: 0 0 5px 5px;-->
+<!--            cursor: pointer;-->
+<!--            font-size: 16px;-->
+<!--        }-->
+
+    </style>
+
+
+  </head>
+
+  <body >
+
+{#    <img src="{% static "img/wallpaperpro.png" %}" alt="uh oh">#}
+    {% block content %}
+
+
+    {% endblock %}
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+
+
+  </body>
+</html>

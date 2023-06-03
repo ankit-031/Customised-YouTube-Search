@@ -1,0 +1,73 @@
+{% extends "base.html"%}
+
+    {% block content %}
+
+<nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+    <div class="container d-flex justify-content-between gdw" >
+        <div>
+            <a class="nav-item" id="col">CustomYoutubeSearch</a>
+
+        </div>
+        <div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav mx-auto" >
+                    <li class="nav-item ">
+                        <a class="nav-link" href="{% url 'home' %}" id="col3">Home <span class=""></span></a>
+                    </li>
+
+                </ul>
+            </div></div>
+    </div>
+</nav>
+<div class="global-container">
+        <div class="card login-form">
+        <div class="card-body">
+            <h3 class="card-title text-center">Sign Up</h3>
+            <div class="card-text">
+                {% if messages %}
+                
+                        {% for message in messages %}
+                        <div class="alert alert-info">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                  
+                    {% endif %}
+                <!--
+
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">Incorrect username or password.</div> -->
+                <form method="post">
+                    {%  csrf_token %}
+                    
+
+                    <!-- to error: add class "has-danger" -->
+                    <div class="form-group">
+                        <label for="exampleInputEmail1" class="black">Username</label>
+                        <input type="text" name="username" class="form-control form-control-sm" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1" class="black">Email address</label>
+                        <input type="email" name="email" class="form-control form-control-sm" id="email" aria-describedby="emailHelp">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1" class="black">Password</label>
+                        <input type="password" name="password" class="form-control form-control-sm" id="exampleInputPassword1">
+                    </div>
+                    <a href="{% url 'forget-password'%}" style="float:right;font-size:12px;color: #090909;">Forgot password?</a>
+
+                    <button type="submit" id="btn-color" class="btn btn-block mt-2">Sign Up</button>
+                    
+                    <div class="sign-up mt-2">
+                        Already have an account? <a href="{% url 'login_attempt'%}" style="color: #090909">Log In</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+    {% endblock %}
